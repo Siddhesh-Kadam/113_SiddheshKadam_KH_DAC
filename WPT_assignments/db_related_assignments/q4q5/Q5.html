@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Account balance</title>
+</head>
+
+<body>
+	<input type="text" id="txt_accno" placeholder="Enter account number">&nbsp&nbsp&nbsp
+	<span id="sp_accbal">Acc balance </span>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+	
+$(() => {
+
+	$('#txt_accno').blur(() => {
+		
+		let input = {accno : $('#txt_accno').val()};
+
+		$.ajax({
+			data : input, 
+            url : "fetchaccbalance",
+            type : 'get',
+            dataType : "json",
+            success:(dataFromServer) => {
+            	  if (dataFromServer.status) {
+            	  	$('#sp_accbal').html(dataFromServer.accbal);
+            	  } else {
+            	  	$('#sp_accbal').html("Account is not there in database");
+            	  }
+            },
+            error:(errorFromServer)=> {
+                alert("Server connection failed! " + errorFromServer);
+            }
+		});
+	});
+
+});
+
+</script>
+
+</html>

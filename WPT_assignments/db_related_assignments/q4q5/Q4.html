@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Area</title>
+</head>
+
+<body>
+	<input type="text" id="txt_pincode" placeholder="Enter pincode">&nbsp&nbsp&nbsp
+	<span id="sp_area">Area name </span>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+	
+$(() => {
+
+	$('#txt_pincode').blur(() => {
+		
+		let input = {pincode : $('#txt_pincode').val()};
+
+		$.ajax({
+			data : input, 
+            url : "fetchareaname",
+            type : 'get',
+            dataType : "json",
+            success:(dataFromServer) => {
+            	  if (dataFromServer.status) {
+            	  	$('#sp_area').html(dataFromServer.areaname);
+            	  } else {
+            	  	$('#sp_area').html("Pincode does not exist in table");
+            	  }
+            },
+            error:(errorFromServer)=> {
+                alert("Server connection failed! " + errorFromServer);
+            }
+		});
+	});
+
+});
+
+</script>
+
+</html>
